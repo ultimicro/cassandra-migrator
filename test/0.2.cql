@@ -1,0 +1,1 @@
+INSERT INTO foo (pk, ck, val) VALUES (fe474926-f997-4a42-b2d9-d83e6d2fb2cf, 0X000001, 'Hooley');
