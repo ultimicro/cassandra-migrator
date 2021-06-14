@@ -25,28 +25,31 @@
             this.sessionOwnership = true;
         }
 
-        public static async Task<Connection> ConnectAsync(string address, string keyspace, CancellationToken cancellationToken = default)
+        public static async Task<Connection> ConnectAsync(string connectionString, CancellationToken cancellationToken = default)
         {
-            var cluster = Cluster.Builder().AddContactPoint(address).Build();
+            var cluster = Cluster.Builder().WithConnectionString(connectionString).Build();
 
             try
             {
-                var session = await cluster.ConnectAsync();
+                return await ConnectAsync(cluster, cancellationToken);
+            }
+            catch
+            {
+                cluster.Dispose();
+                throw;
+            }
+        }
 
-                try
-                {
-                    session.CreateKeyspaceIfNotExists(keyspace);
-                    session.ChangeKeyspace(keyspace);
+        public static async Task<Connection> ConnectAsync(string address, string keyspace, CancellationToken cancellationToken = default)
+        {
+            var cluster = Cluster.Builder()
+                .AddContactPoint(address)
+                .WithDefaultKeyspace(keyspace)
+                .Build();
 
-                    await session.ExecuteAsync(new SimpleStatement("CREATE TABLE IF NOT EXISTS migrations (major SMALLINT, minor SMALLINT, time TIMESTAMP, PRIMARY KEY (major, minor))"));
-
-                    return new Connection(session, cluster);
-                }
-                catch
-                {
-                    session.Dispose();
-                    throw;
-                }
+            try
+            {
+                return await ConnectAsync(cluster, cancellationToken);
             }
             catch
             {
@@ -96,6 +99,31 @@
             }
 
             return histories;
+        }
+
+        private static async Task<Connection> ConnectAsync(Cluster cluster, CancellationToken cancellationToken = default)
+        {
+            var replication = ReplicationStrategies.CreateSimpleStrategyReplicationProperty(1);
+            var session = cluster.ConnectAndCreateDefaultKeyspaceIfNotExists(replication);
+
+            try
+            {
+                await CreateTableAsync();
+
+                return new Connection(session, cluster);
+            }
+            catch
+            {
+                session.Dispose();
+                throw;
+            }
+
+            Task CreateTableAsync()
+            {
+                var cql = "CREATE TABLE IF NOT EXISTS migrations (major SMALLINT, minor SMALLINT, time TIMESTAMP, PRIMARY KEY (major, minor))";
+
+                return session.ExecuteAsync(new SimpleStatement(cql));
+            }
         }
     }
 }
