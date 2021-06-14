@@ -13,10 +13,6 @@ jobs:
     steps:
     - name: Checkout source
       uses: actions/checkout@v2
-    - name: Set up .NET SDK
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: '5.0.x'
     - name: Build
       run: dotnet build src/CassandraMigrator.sln
     - name: Execute tests
