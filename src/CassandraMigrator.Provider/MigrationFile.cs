@@ -5,6 +5,7 @@
     using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
+    using CassandraMigrator.CqlParser;
 
     internal sealed class MigrationFile : Migration
     {
@@ -20,7 +21,7 @@
         {
             var cql = await File.ReadAllTextAsync(this.path, Encoding.UTF8, cancellationToken);
 
-            return MigrationText.Parse(cql);
+            return CqlParser.ParseStatements(cql);
         }
 
         public override string ToString() => this.path;

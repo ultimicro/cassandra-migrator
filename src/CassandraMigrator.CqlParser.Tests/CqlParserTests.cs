@@ -1,13 +1,13 @@
-﻿namespace CassandraMigrator.Provider.Tests
+﻿namespace CassandraMigrator.CqlParser.Tests
 {
     using System;
     using System.Linq;
     using Xunit;
 
-    public sealed class MigrationTextTests
+    public sealed class CqlParserTests
     {
         [Fact]
-        public void Parse_WithValidCQL_ShouldReturnAllNonCommentStatements()
+        public void ParseStatements_WithValidCQL_ShouldReturnAllNonCommentStatements()
         {
             var table1 = @"CREATE TABLE foo (
     pk uuid,
@@ -32,7 +32,7 @@ comment 3
 */
 {insert};
 ";
-            var result = MigrationText.Parse(cql).ToList();
+            var result = CqlParser.ParseStatements(cql).ToList();
 
             Assert.Equal(3, result.Count);
             Assert.Equal(table1, result[0]);
@@ -41,11 +41,11 @@ comment 3
         }
 
         [Fact]
-        public void Parse_WithInvalidCQL_ShouldThrow()
+        public void ParseStatements_WithInvalidCQL_ShouldThrow()
         {
-            var invalid = "INSERT INTO foo (pk) VALUES (0x00000000);"; // BUG: ANTLR don't accept lower case 'x' on hex literal.
+            var invalid = "INSERT INTO foo (pk) VALUES 0x00000000;";
 
-            Assert.ThrowsAny<Exception>(() => MigrationText.Parse(invalid));
+            Assert.ThrowsAny<Exception>(() => CqlParser.ParseStatements(invalid));
         }
     }
 }

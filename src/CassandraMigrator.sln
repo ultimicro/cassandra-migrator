@@ -3,19 +3,23 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.6.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CassandraMigrator", "CassandraMigrator\CassandraMigrator.csproj", "{52A29C68-B56E-4E3F-891A-5E84A350F4ED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CassandraMigrator", "CassandraMigrator\CassandraMigrator.csproj", "{52A29C68-B56E-4E3F-891A-5E84A350F4ED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CassandraMigrator.Tests", "CassandraMigrator.Tests\CassandraMigrator.Tests.csproj", "{0009CE45-E6E5-4F43-BA93-A5A3DE38EC33}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CassandraMigrator.Tests", "CassandraMigrator.Tests\CassandraMigrator.Tests.csproj", "{0009CE45-E6E5-4F43-BA93-A5A3DE38EC33}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CassandraMigrator.Console", "CassandraMigrator.Console\CassandraMigrator.Console.csproj", "{153E11BD-08D6-4976-B08E-8A9BC386BC7C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CassandraMigrator.Console", "CassandraMigrator.Console\CassandraMigrator.Console.csproj", "{153E11BD-08D6-4976-B08E-8A9BC386BC7C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CassandraMigrator.DataStaxClient", "CassandraMigrator.DataStaxClient\CassandraMigrator.DataStaxClient.csproj", "{CF56795D-FE0F-4A99-85D3-1F52C8FF58F6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CassandraMigrator.DataStaxClient", "CassandraMigrator.DataStaxClient\CassandraMigrator.DataStaxClient.csproj", "{CF56795D-FE0F-4A99-85D3-1F52C8FF58F6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CassandraMigrator.DataStaxClient.Tests", "CassandraMigrator.DataStaxClient.Tests\CassandraMigrator.DataStaxClient.Tests.csproj", "{B2CF6535-77CE-44D9-8439-AC6257BBAD24}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CassandraMigrator.DataStaxClient.Tests", "CassandraMigrator.DataStaxClient.Tests\CassandraMigrator.DataStaxClient.Tests.csproj", "{B2CF6535-77CE-44D9-8439-AC6257BBAD24}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CassandraMigrator.Provider", "CassandraMigrator.Provider\CassandraMigrator.Provider.csproj", "{384E0BD0-1D7A-4FB1-9CFD-052424DD73AF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CassandraMigrator.Provider", "CassandraMigrator.Provider\CassandraMigrator.Provider.csproj", "{384E0BD0-1D7A-4FB1-9CFD-052424DD73AF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CassandraMigrator.Provider.Tests", "CassandraMigrator.Provider.Tests\CassandraMigrator.Provider.Tests.csproj", "{93DE66DE-207E-4876-B780-80AA90E945E2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CassandraMigrator.Provider.Tests", "CassandraMigrator.Provider.Tests\CassandraMigrator.Provider.Tests.csproj", "{93DE66DE-207E-4876-B780-80AA90E945E2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CassandraMigrator.CqlParser", "CassandraMigrator.CqlParser\CassandraMigrator.CqlParser.csproj", "{B03B4AA9-AEAD-4F70-AC4E-4B2947EA926C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CassandraMigrator.CqlParser.Tests", "CassandraMigrator.CqlParser.Tests\CassandraMigrator.CqlParser.Tests.csproj", "{42E9BCFC-EAEE-48A0-8603-D549F88A5FCD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +55,14 @@ Global
 		{93DE66DE-207E-4876-B780-80AA90E945E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{93DE66DE-207E-4876-B780-80AA90E945E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{93DE66DE-207E-4876-B780-80AA90E945E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B03B4AA9-AEAD-4F70-AC4E-4B2947EA926C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B03B4AA9-AEAD-4F70-AC4E-4B2947EA926C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B03B4AA9-AEAD-4F70-AC4E-4B2947EA926C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B03B4AA9-AEAD-4F70-AC4E-4B2947EA926C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42E9BCFC-EAEE-48A0-8603-D549F88A5FCD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42E9BCFC-EAEE-48A0-8603-D549F88A5FCD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42E9BCFC-EAEE-48A0-8603-D549F88A5FCD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42E9BCFC-EAEE-48A0-8603-D549F88A5FCD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
