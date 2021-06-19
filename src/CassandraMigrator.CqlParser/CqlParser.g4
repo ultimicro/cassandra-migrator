@@ -780,8 +780,14 @@ table
    ;
 
 column
-   : OBJECT_NAME
+   : unquotedIdentifier
    | DQUOTE OBJECT_NAME DQUOTE
+   ;
+
+unquotedIdentifier
+   : OBJECT_NAME
+   | kwLanguage
+   | kwType
    ;
 
 dataType
