@@ -825,7 +825,7 @@ dataTypeName
    ;
 
 dataTypeDefinition
-   : syntaxBracketLa dataTypeName (syntaxComma dataTypeName)* syntaxBracketRa
+   : syntaxBracketLa dataType (syntaxComma dataType)* syntaxBracketRa
    ;
 
 orderDirection
