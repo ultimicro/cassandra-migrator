@@ -1,6 +1,5 @@
 ﻿namespace CassandraMigrator.CqlParser.Tests
 {
-    using System;
     using System.Linq;
     using Xunit;
 
@@ -44,8 +43,11 @@ comment 3
         public void ParseStatements_WithInvalidCQL_ShouldThrow()
         {
             var invalid = "INSERT INTO foo (pk) VALUES 0x00000000;";
+            var ex = Assert.Throws<CqlException>(() => CqlParser.ParseStatements(invalid));
 
-            Assert.ThrowsAny<Exception>(() => CqlParser.ParseStatements(invalid));
+            Assert.Equal(1, ex.Line);
+            Assert.Equal(28, ex.Column);
+            Assert.Equal("0x00000000", ex.Token);
         }
     }
 }
