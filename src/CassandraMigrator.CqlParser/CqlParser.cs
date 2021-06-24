@@ -25,7 +25,7 @@
         public static IEnumerable<string> ParseStatements(string cql)
         {
             var input = new AntlrInputStream(cql);
-            var lexer = new CqlLexer(new CaseChangingCharStream(input, true));
+            var lexer = new CqlLexer(input);
             var tokens = new CommonTokenStream(lexer);
             var parser = new Parsing.CqlParser(tokens) { ErrorHandler = new BailErrorStrategy() };
             var walker = new ParseTreeWalker();

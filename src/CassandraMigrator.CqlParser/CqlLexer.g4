@@ -1,3 +1,24 @@
+/*
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2014 by Domagoj Kovačević
+ * Copyright (c) 2021 by Ultima Microsystems
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
+ * associated documentation files (the "Software"), to deal in the Software without restriction,
+ * including without limitation the rights to use, copy, modify, merge, publish, distribute,
+ * sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all copies or
+ * substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
+ * NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+ * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
 
 lexer grammar CqlLexer;
 
@@ -811,136 +832,119 @@ K_VARINT
    : V A R I N T
    ;
 
+// Fragments
 
 fragment A
-   : [aA]
-   ;
-
+    : [aA]
+    ;
 
 fragment B
-   : [bB]
-   ;
-
+    : [bB]
+    ;
 
 fragment C
-   : [cC]
-   ;
-
+    : [cC]
+    ;
 
 fragment D
-   : [dD]
-   ;
-
+    : [dD]
+    ;
 
 fragment E
-   : [eE]
-   ;
-
+    : [eE]
+    ;
 
 fragment F
-   : [fF]
-   ;
-
+    : [fF]
+    ;
 
 fragment G
-   : [gG]
-   ;
-
+    : [gG]
+    ;
 
 fragment H
-   : [hH]
-   ;
-
+    : [hH]
+    ;
 
 fragment I
-   : [iI]
-   ;
-
+    : [iI]
+    ;
 
 fragment J
-   : [jJ]
-   ;
-
+    : [jJ]
+    ;
 
 fragment K
-   : [kK]
-   ;
-
+    : [kK]
+    ;
 
 fragment L
-   : [lL]
-   ;
-
+    : [lL]
+    ;
 
 fragment M
-   : [mM]
-   ;
-
+    : [mM]
+    ;
 
 fragment N
-   : [nN]
-   ;
-
+    : [nN]
+    ;
 
 fragment O
-   : [oO]
-   ;
-
+    : [oO]
+    ;
 
 fragment P
-   : [pP]
-   ;
-
+    : [pP]
+    ;
 
 fragment Q
-   : [qQ]
-   ;
-
+    : [qQ]
+    ;
 
 fragment R
-   : [rR]
-   ;
-
+    : [rR]
+    ;
 
 fragment S
-   : [sS]
-   ;
-
+    : [sS]
+    ;
 
 fragment T
-   : [tT]
-   ;
-
+    : [tT]
+    ;
 
 fragment U
-   : [uU]
-   ;
-
+    : [uU]
+    ;
 
 fragment V
-   : [vV]
-   ;
-
+    : [vV]
+    ;
 
 fragment W
-   : [wW]
-   ;
-
+    : [wW]
+    ;
 
 fragment X
-   : [xX]
-   ;
-
+    : [xX]
+    ;
 
 fragment Y
-   : [yY]
-   ;
-
+    : [yY]
+    ;
 
 fragment Z
-   : [zZ]
-   ;
+    : [zZ]
+    ;
 
+fragment DIGIT
+    : [0-9]
+    ;
+
+fragment LETTER
+    : [a-zA-Z]
+    ;
 
 fragment CODE_BLOCK_DELIMITER
    : '$$'
@@ -967,6 +971,16 @@ fragment SQUOTA_STRING
    ;
 
 
+IDENT
+    : LETTER (LETTER | DIGIT | '_')*
+    ;
+
+
+QUOTED_IDENT
+    : '"' ~'"' + '"'
+    ;
+
+
 CODE_BLOCK
    : CODE_BLOCK_FRAG
    ;
@@ -978,7 +992,7 @@ STRING_LITERAL
 
 
 DECIMAL_LITERAL
-   : DEC_DIGIT +
+   : DIGIT +
    ;
 
 
@@ -988,12 +1002,12 @@ FLOAT_LITERAL
 
 
 HEXADECIMAL_LITERAL
-   : 'X' '\'' (HEX_DIGIT HEX_DIGIT) + '\'' | '0X' HEX_DIGIT +
+   : '0' X HEX_DIGIT*
    ;
 
 
 REAL_LITERAL
-   : (DEC_DIGIT +)? '.' DEC_DIGIT + | DEC_DIGIT + '.' EXPONENT_NUM_PART | (DEC_DIGIT +)? '.' (DEC_DIGIT + EXPONENT_NUM_PART) | DEC_DIGIT + EXPONENT_NUM_PART
+   : (DIGIT +)? '.' DIGIT + | DIGIT + '.' EXPONENT_NUM_PART | (DIGIT +)? '.' (DIGIT + EXPONENT_NUM_PART) | DIGIT + EXPONENT_NUM_PART
    ;
 
 
@@ -1012,13 +1026,8 @@ fragment HEX_DIGIT
    ;
 
 
-fragment DEC_DIGIT
-   : [0-9]
-   ;
-
-
 fragment EXPONENT_NUM_PART
-   : 'E' '-'? DEC_DIGIT +
+   : 'E' '-'? DIGIT +
    ;
 
 

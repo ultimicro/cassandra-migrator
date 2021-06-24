@@ -29,8 +29,7 @@
 /*
 comment 3
 */
-{insert};
-";
+{insert};";
             var result = CqlParser.ParseStatements(cql).ToList();
 
             Assert.Equal(3, result.Count);
@@ -48,6 +47,38 @@ comment 3
             Assert.Equal(1, ex.Line);
             Assert.Equal(28, ex.Column);
             Assert.Equal("0x00000000", ex.Token);
+        }
+
+        [Fact]
+        public void ParseStatements_WithAllowedReservedWordInColumnName_ShouldSuccess()
+        {
+            var type = @"CREATE TYPE foo (
+    type TINYINT
+)";
+            var table = @"CREATE TABLE bar (
+    language ASCII,
+    PRIMARY KEY (language)
+) WITH compaction = {'class': 'LeveledCompactionStrategy'}";
+            var cql = @$"
+{type};
+
+{table};";
+
+            var result = CqlParser.ParseStatements(cql).ToArray();
+
+            Assert.Equal(2, result.Length);
+            Assert.Equal(type, result[0]);
+            Assert.Equal(table, result[1]);
+        }
+
+        [Fact]
+        public void ParseStatements_WithMaterializedView_ShouldSuccess()
+        {
+            var cql = "CREATE MATERIALIZED VIEW foo AS SELECT * FROM bar WHERE b IS NOT NULL AND a IS NOT NULL PRIMARY KEY (b, a) WITH CLUSTERING ORDER BY (a DESC)";
+            var result = CqlParser.ParseStatements(cql).ToArray();
+
+            var statement = Assert.Single(result);
+            Assert.Equal(cql, statement);
         }
     }
 }
