@@ -40,12 +40,26 @@
             }
         }
 
-        public static async Task<Connection> ConnectAsync(string address, string keyspace, CancellationToken cancellationToken = default)
+        public static Task<Connection> ConnectAsync(string address, string keyspace, CancellationToken cancellationToken = default)
         {
-            var cluster = Cluster.Builder()
-                .AddContactPoint(address)
-                .WithDefaultKeyspace(keyspace)
-                .Build();
+            return ConnectAsync(address, keyspace, null, null, cancellationToken);
+        }
+
+        public static async Task<Connection> ConnectAsync(
+            string address,
+            string keyspace,
+            string? username,
+            string? password,
+            CancellationToken cancellationToken = default)
+        {
+            var builder = Cluster.Builder().AddContactPoint(address).WithDefaultKeyspace(keyspace);
+
+            if (username != null && password != null)
+            {
+                builder.WithCredentials(username, password);
+            }
+
+            var cluster = builder.Build();
 
             try
             {
