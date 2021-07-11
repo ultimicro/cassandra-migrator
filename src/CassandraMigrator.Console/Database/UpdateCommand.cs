@@ -27,6 +27,8 @@
             // Get options.
             var address = context.ParseResult.ValueForOption(DatabaseCommand.AddressOption);
             var keyspace = context.ParseResult.ValueForOption(DatabaseCommand.KeyspaceOption);
+            var username = context.ParseResult.ValueForOption(DatabaseCommand.UsernameOption);
+            var password = context.ParseResult.ValueForOption(DatabaseCommand.PasswordOption);
             var directory = context.ParseResult.ValueForOption(DirectoryOption);
 
             if (string.IsNullOrEmpty(address))
@@ -45,11 +47,8 @@
             }
 
             // Setup migrator.
-            using var connection = await Connection.ConnectAsync(address, keyspace);
-            using var logger = LoggerFactory.Create(builder =>
-            {
-                builder.AddConsole();
-            });
+            using var connection = await Connection.ConnectAsync(address, keyspace, username, password);
+            using var logger = LoggerFactory.Create(b => b.AddConsole());
 
             var migrator = new Migrator(connection, logger.CreateLogger<Migrator>());
             var provider = new FileSystemMigrationProvider(directory.FullName);

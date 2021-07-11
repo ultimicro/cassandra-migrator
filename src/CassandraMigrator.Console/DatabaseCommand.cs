@@ -14,11 +14,21 @@
             new[] { "-k", "--keyspace" },
             "Target keyspace");
 
+        public static readonly Option<string> UsernameOption = new(
+            new[] { "-u", "--username" },
+            "Username to authenticate");
+
+        public static readonly Option<string> PasswordOption = new(
+            new[] { "-p", "--password" },
+            "Password to authenticate");
+
         public DatabaseCommand()
             : base("database", "Manage database")
         {
             this.Add(AddressOption);
             this.Add(KeyspaceOption);
+            this.Add(UsernameOption);
+            this.Add(PasswordOption);
             this.Add(new UpdateCommand());
         }
     }
