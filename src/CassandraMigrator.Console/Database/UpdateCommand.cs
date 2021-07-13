@@ -47,6 +47,16 @@
                 throw new InvalidOperationException("No keyspace is specified.");
             }
 
+            if (string.IsNullOrEmpty(username))
+            {
+                username = null;
+            }
+
+            if (string.IsNullOrEmpty(password))
+            {
+                password = null;
+            }
+
             if (directory == null)
             {
                 directory = new DirectoryInfo(Directory.GetCurrentDirectory());
