@@ -15,10 +15,15 @@
             new[] { "-d", "--directory" },
             "Path to directory contains migrations");
 
+        public static readonly Option<bool> NoCreateKeyspace = new(
+            new[] { "--no-create-keyspace" },
+            "Don't attempt to create keyspace");
+
         public UpdateCommand()
             : base("update", "Apply migrations to the database")
         {
             this.Add(DirectoryOption);
+            this.Add(NoCreateKeyspace);
             this.Handler = this;
         }
 
@@ -30,6 +35,7 @@
             var username = context.ParseResult.ValueForOption(DatabaseCommand.UsernameOption);
             var password = context.ParseResult.ValueForOption(DatabaseCommand.PasswordOption);
             var directory = context.ParseResult.ValueForOption(DirectoryOption);
+            var createKeyspace = context.ParseResult.ValueForOption(NoCreateKeyspace) == false;
 
             if (string.IsNullOrEmpty(address))
             {
@@ -47,7 +53,7 @@
             }
 
             // Setup migrator.
-            using var connection = await Connection.ConnectAsync(address, keyspace, username, password);
+            using var connection = await Connection.ConnectAsync(address, keyspace, username, password, createKeyspace);
             using var logger = LoggerFactory.Create(b => b.AddConsole());
 
             var migrator = new Migrator(connection, logger.CreateLogger<Migrator>());

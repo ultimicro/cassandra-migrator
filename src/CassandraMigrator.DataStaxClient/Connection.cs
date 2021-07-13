@@ -31,7 +31,7 @@
 
             try
             {
-                return await ConnectAsync(cluster, cancellationToken);
+                return await ConnectAsync(cluster, true, cancellationToken);
             }
             catch
             {
@@ -45,11 +45,22 @@
             return ConnectAsync(address, keyspace, null, null, cancellationToken);
         }
 
+        public static Task<Connection> ConnectAsync(
+            string address,
+            string keyspace,
+            string? username,
+            string? password,
+            CancellationToken cancellationToken = default)
+        {
+            return ConnectAsync(address, keyspace, username, password, true, cancellationToken);
+        }
+
         public static async Task<Connection> ConnectAsync(
             string address,
             string keyspace,
             string? username,
             string? password,
+            bool createKeyspace,
             CancellationToken cancellationToken = default)
         {
             var builder = Cluster.Builder().AddContactPoint(address).WithDefaultKeyspace(keyspace);
@@ -63,7 +74,7 @@
 
             try
             {
-                return await ConnectAsync(cluster, cancellationToken);
+                return await ConnectAsync(cluster, createKeyspace, cancellationToken);
             }
             catch
             {
@@ -115,10 +126,19 @@
             return histories;
         }
 
-        private static async Task<Connection> ConnectAsync(Cluster cluster, CancellationToken cancellationToken = default)
+        private static async Task<Connection> ConnectAsync(Cluster cluster, bool createKeyspace, CancellationToken cancellationToken = default)
         {
-            var replication = ReplicationStrategies.CreateSimpleStrategyReplicationProperty(1);
-            var session = cluster.ConnectAndCreateDefaultKeyspaceIfNotExists(replication);
+            ISession session;
+
+            if (createKeyspace)
+            {
+                var replication = ReplicationStrategies.CreateSimpleStrategyReplicationProperty(1);
+                session = cluster.ConnectAndCreateDefaultKeyspaceIfNotExists(replication);
+            }
+            else
+            {
+                session = await cluster.ConnectAsync();
+            }
 
             try
             {
