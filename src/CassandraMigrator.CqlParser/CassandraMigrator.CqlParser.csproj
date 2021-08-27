@@ -2,7 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <NoWarn>CS3021;$(NoWarn)</NoWarn>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <NoWarn>CS3021;CS2002;$(NoWarn)</NoWarn>
     <Version>1.2.0</Version>
     <Description>CQL parser for CassandraMigrator.</Description>
   </PropertyGroup>
@@ -20,6 +21,12 @@
       <Generator>MSBuild:Compile</Generator>
       <CustomToolNamespace>CassandraMigrator.CqlParser.Parsing</CustomToolNamespace>
     </Antlr4>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="CqlException.cs" />
+    <Compile Include="CqlParser.cs" />
+    <Compile Include="StatementExtractor.cs" />
   </ItemGroup>
 
 </Project>
