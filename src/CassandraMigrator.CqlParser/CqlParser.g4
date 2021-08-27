@@ -23,11 +23,11 @@
 parser grammar CqlParser;
 
 options
-   { tokenVocab = CqlLexer; }
+    { tokenVocab = CqlLexer; }
 
 root
-   : cqls? MINUSMINUS? eof
-   ;
+    : cqls? MINUSMINUS? EOF
+    ;
 
 cqls
    : (cql MINUSMINUS? statementSeparator | empty_)* (cql (MINUSMINUS? statementSeparator)? | empty_)
@@ -804,6 +804,7 @@ ident
 
 keyword
     : K_LANGUAGE
+    | K_LEVEL
     | K_TYPE
     ;
 
@@ -1198,10 +1199,6 @@ kwWhere
 
 kwRevoke
    : K_REVOKE
-   ;
-
-eof
-   : EOF
    ;
 
 // BRACKETS

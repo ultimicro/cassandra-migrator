@@ -4,7 +4,7 @@
     <TargetFramework>net5.0</TargetFramework>
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
     <NoWarn>CS3021;CS2002;$(NoWarn)</NoWarn>
-    <Version>1.2.0</Version>
+    <Version>1.2.1</Version>
     <Description>CQL parser for CassandraMigrator.</Description>
   </PropertyGroup>
 

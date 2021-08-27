@@ -57,6 +57,7 @@ comment 3
 )";
             var table = @"CREATE TABLE bar (
     language ASCII,
+    level TINYINT,
     PRIMARY KEY (language)
 ) WITH compaction = {'class': 'LeveledCompactionStrategy'}";
             var cql = @$"
