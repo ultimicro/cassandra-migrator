@@ -7,3 +7,7 @@ This is a tool for managing schema on Apache Cassandra. It is available as a .NE
 
 Install [CassandraMigrator](https://www.nuget.org/packages/CassandraMigrator/) then create an instance of `CassandraMigrator.Migrator` then invoke
 `ExecuteAsync` method.
+
+### Avaialble IConnection implementations
+
+- `CassandraMigrator.DataStaxClient.Connection` from [CassandraMigrator.DataStaxClient](https://www.nuget.org/packages/CassandraMigrator.DataStaxClient).
