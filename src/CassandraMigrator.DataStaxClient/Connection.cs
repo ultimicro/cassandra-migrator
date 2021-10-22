@@ -12,10 +12,17 @@
         private readonly bool sessionOwnership;
         private readonly Cluster? cluster;
 
+        [Obsolete("Use CreateAsync instead.")]
         public Connection(ISession session, bool leaveOpen)
         {
             this.session = session;
             this.sessionOwnership = !leaveOpen;
+        }
+
+        private Connection(ISession session)
+        {
+            this.session = session;
+            this.sessionOwnership = false;
         }
 
         private Connection(ISession session, Cluster cluster)
@@ -83,6 +90,13 @@
             }
         }
 
+        public static async Task<Connection> CreateAsync(ISession session, CancellationToken cancellationToken = default)
+        {
+            await CreateMigrationTableAsync(session, cancellationToken);
+
+            return new Connection(session);
+        }
+
         public void Dispose()
         {
             if (this.sessionOwnership)
@@ -142,7 +156,7 @@
 
             try
             {
-                await CreateTableAsync();
+                await CreateMigrationTableAsync(session, cancellationToken);
 
                 return new Connection(session, cluster);
             }
@@ -151,13 +165,13 @@
                 session.Dispose();
                 throw;
             }
+        }
 
-            Task CreateTableAsync()
-            {
-                var cql = "CREATE TABLE IF NOT EXISTS migrations (major SMALLINT, minor SMALLINT, time TIMESTAMP, PRIMARY KEY (major, minor))";
+        private static Task CreateMigrationTableAsync(ISession session, CancellationToken cancellationToken = default)
+        {
+            var cql = "CREATE TABLE IF NOT EXISTS migrations (major SMALLINT, minor SMALLINT, time TIMESTAMP, PRIMARY KEY (major, minor))";
 
-                return session.ExecuteAsync(new SimpleStatement(cql));
-            }
+            return session.ExecuteAsync(new SimpleStatement(cql));
         }
     }
 }
