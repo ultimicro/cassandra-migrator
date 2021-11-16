@@ -81,5 +81,19 @@ comment 3
             var statement = Assert.Single(result);
             Assert.Equal(cql, statement);
         }
+
+        [Theory]
+        [InlineData("")]
+        [InlineData("\n")]
+        [InlineData("-- comment")]
+        [InlineData("-- comment\n")]
+        [InlineData("// comment")]
+        [InlineData("// comment\n")]
+        public void ParseStatements_WithNoStatements_ShouldReturnEmptyList(string cql)
+        {
+            var result = CqlParser.ParseStatements(cql);
+
+            Assert.Empty(result);
+        }
     }
 }
