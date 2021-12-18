@@ -19,7 +19,6 @@
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-
 parser grammar CqlParser;
 
 options
@@ -147,14 +146,8 @@ createTrigger
 // CREATE MATERIALIZED VIEW
 
 createMaterializedView
-    : K_CREATE K_MATERIALIZED K_VIEW ifNotExist? table K_AS select kwPrimary kwKey syntaxBracketLr columnList syntaxBracketRr (K_WITH materializedViewOptions)?
+    : K_CREATE K_MATERIALIZED K_VIEW ifNotExist? table K_AS select kwPrimary kwKey syntaxBracketLr columnList syntaxBracketRr tableOptions?
     ;
-
-materializedViewOptions
-   : tableOptions
-   | tableOptions K_AND clusteringOrder
-   | clusteringOrder
-   ;
 
 createKeyspace
    : K_CREATE kwKeyspace ifNotExist? keyspace K_WITH kwReplication OPERATOR_EQ syntaxBracketLc replicationList syntaxBracketRc (K_AND durableWrites)?
@@ -262,11 +255,7 @@ alterTableOperation
    | alterTableDropColumns
    | alterTableDropCompactStorage
    | alterTableRename
-   | alterTableWith
-   ;
-
-alterTableWith
-   : K_WITH tableOptions
+   | tableOptions
    ;
 
 alterTableRename
@@ -309,7 +298,7 @@ roleWithOptions
    ;
 
 alterMaterializedView
-   : kwAlter K_MATERIALIZED K_VIEW table (K_WITH tableOptions)?
+   : kwAlter K_MATERIALIZED K_VIEW table tableOptions?
    ;
 
 dropUser
@@ -355,24 +344,21 @@ dropIndex
 // CREATE TABLE
 
 createTable
-    : K_CREATE K_TABLE ifNotExist? table syntaxBracketLr columnDefinitionList syntaxBracketRr withElement?
-    ;
-
-withElement
-    : K_WITH tableOptions? clusteringOrder?
-    ;
-
-clusteringOrder
-    : kwClustering kwOrder kwBy syntaxBracketLr column orderDirection? syntaxBracketRr
+    : K_CREATE K_TABLE ifNotExist? table syntaxBracketLr columnDefinitionList syntaxBracketRr tableOptions?
     ;
 
 tableOptions
-    : tableOptionItem (K_AND tableOptionItem)*
+    : K_WITH tableOption (K_AND tableOption)*
     ;
 
-tableOptionItem
+tableOption
     : ident OPERATOR_EQ tableOptionValue
     | ident OPERATOR_EQ optionHash
+    | K_CLUSTERING K_ORDER K_BY '(' clusteringOrder (',' clusteringOrder)* ')'
+    ;
+
+clusteringOrder
+    : column (K_ASC | K_DESC)
     ;
 
 tableOptionValue
@@ -907,10 +893,6 @@ kwBy
 
 kwCalled
    : K_CALLED
-   ;
-
-kwClustering
-   : K_CLUSTERING
    ;
 
 kwCompact

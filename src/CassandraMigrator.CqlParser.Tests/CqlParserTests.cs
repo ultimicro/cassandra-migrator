@@ -19,7 +19,7 @@
     ck blob,
     val text,
     PRIMARY KEY (pk, ck)
-)";
+) WITH CLUSTERING ORDER BY (ck DESC) AND compaction = {'class': 'LeveledCompactionStrategy'}";
             var insert = "INSERT INTO foo (pk, ck, val) VALUES (fd1d5bea-ac6b-4af0-a475-c310afc491df, 0X00000000, 'ABC')";
             var cql = @$"
 -- comment 1
