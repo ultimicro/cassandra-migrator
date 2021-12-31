@@ -56,9 +56,10 @@ comment 3
     type TINYINT
 )";
             var table = @"CREATE TABLE bar (
+    user UUID,
     language ASCII,
     level TINYINT,
-    PRIMARY KEY (language)
+    PRIMARY KEY (user)
 ) WITH compaction = {'class': 'LeveledCompactionStrategy'}";
             var cql = @$"
 {type};

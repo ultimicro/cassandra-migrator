@@ -792,6 +792,7 @@ keyword
     : K_LANGUAGE
     | K_LEVEL
     | K_TYPE
+    | K_USER
     ;
 
 orderDirection
