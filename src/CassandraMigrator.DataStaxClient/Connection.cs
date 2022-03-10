@@ -8,6 +8,8 @@
 
     public sealed class Connection : IConnection, IDisposable
     {
+        private const int RetryCount = 3; // Number to retry, not including the first attempt.
+
         private readonly ISession session;
         private readonly bool sessionOwnership;
         private readonly Cluster? cluster;
@@ -144,14 +146,32 @@
         {
             ISession session;
 
-            if (createKeyspace)
+            for (var i = 0; ; i++)
             {
-                var replication = ReplicationStrategies.CreateSimpleStrategyReplicationProperty(1);
-                session = cluster.ConnectAndCreateDefaultKeyspaceIfNotExists(replication);
-            }
-            else
-            {
-                session = await cluster.ConnectAsync();
+                try
+                {
+                    if (createKeyspace)
+                    {
+                        var replication = ReplicationStrategies.CreateSimpleStrategyReplicationProperty(1);
+                        session = cluster.ConnectAndCreateDefaultKeyspaceIfNotExists(replication);
+                    }
+                    else
+                    {
+                        session = await cluster.ConnectAsync();
+                    }
+                }
+                catch (NoHostAvailableException)
+                {
+                    if (i < RetryCount)
+                    {
+                        await Task.Delay(1000 * 30 * (i + 1), cancellationToken);
+                        continue;
+                    }
+
+                    throw;
+                }
+
+                break;
             }
 
             try
