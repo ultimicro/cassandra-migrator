@@ -27,15 +27,17 @@
             this.Handler = this;
         }
 
+        public int Invoke(InvocationContext context) => this.InvokeAsync(context).Result;
+
         public async Task<int> InvokeAsync(InvocationContext context)
         {
             // Get options.
-            var address = context.ParseResult.ValueForOption(DatabaseCommand.AddressOption);
-            var keyspace = context.ParseResult.ValueForOption(DatabaseCommand.KeyspaceOption);
-            var username = context.ParseResult.ValueForOption(DatabaseCommand.UsernameOption);
-            var password = context.ParseResult.ValueForOption(DatabaseCommand.PasswordOption);
-            var directory = context.ParseResult.ValueForOption(DirectoryOption);
-            var createKeyspace = context.ParseResult.ValueForOption(NoCreateKeyspace) == false;
+            var address = context.ParseResult.GetValueForOption(DatabaseCommand.AddressOption);
+            var keyspace = context.ParseResult.GetValueForOption(DatabaseCommand.KeyspaceOption);
+            var username = context.ParseResult.GetValueForOption(DatabaseCommand.UsernameOption);
+            var password = context.ParseResult.GetValueForOption(DatabaseCommand.PasswordOption);
+            var directory = context.ParseResult.GetValueForOption(DirectoryOption);
+            var createKeyspace = context.ParseResult.GetValueForOption(NoCreateKeyspace) == false;
 
             if (string.IsNullOrEmpty(address))
             {
