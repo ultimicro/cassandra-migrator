@@ -10,7 +10,7 @@
         }
 
         public CqlException(int line, int column, string token, Exception? innerException)
-            : base($"Unrecognized CQL token '{token}' at line {line}:{column}.", innerException)
+            : base($"Unrecognized CQL token {token} at line {line}:{column}.", innerException)
         {
             this.Line = line;
             this.Column = column;
