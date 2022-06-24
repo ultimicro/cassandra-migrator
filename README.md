@@ -3,6 +3,14 @@
 
 This is a tool for managing schema on Apache Cassandra. It is available as a .NET Tool, Docker image and a class library.
 
+| Package                          | Version                                                                                                                                      |
+| -------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| .NET Tool                        | [![Nuget](https://img.shields.io/nuget/v/cassandra-migrator)](https://www.nuget.org/packages/cassandra-migrator)                             |
+| CassandraMigrator                | [![Nuget](https://img.shields.io/nuget/v/CassandraMigrator)](https://www.nuget.org/packages/CassandraMigrator)                               |
+| CassandraMigrator.CqlParser      | [![Nuget](https://img.shields.io/nuget/v/CassandraMigrator.CqlParser)](https://www.nuget.org/packages/CassandraMigrator.CqlParser)           |
+| CassandraMigrator.DataStaxClient | [![Nuget](https://img.shields.io/nuget/v/CassandraMigrator.DataStaxClient)](https://www.nuget.org/packages/CassandraMigrator.DataStaxClient) |
+| CassandraMigrator.Provider       | [![Nuget](https://img.shields.io/nuget/v/CassandraMigrator.Provider)](https://www.nuget.org/packages/CassandraMigrator.Provider)             |
+
 ## Features
 
 - Using raw CQL as a migration script so you have full control how to migrate your Cassandra.
