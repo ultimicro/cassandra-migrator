@@ -610,16 +610,142 @@ columnList
    ;
 
 expressionList
-   : expression (syntaxComma expression)*
-   ;
+    : term (',' term)*
+    ;
 
-expression
-   : constant
-   | assignmentMap
-   | assignmentSet
-   | assignmentList
-   | assignmentTuple
-   ;
+term
+    : termAddition
+    ;
+
+termAddition
+    : termMultiplication ('+' termMultiplication | '-' termMultiplication)*
+    ;
+
+termMultiplication
+    : termGroup ('*' termGroup | '/' termGroup | '%' termGroup)*
+    ;
+
+termGroup
+    : simpleTerm
+    | '-' simpleTerm
+    ;
+
+simpleTerm
+    : value
+    | function
+    | '(' comparatorType ')' simpleTerm
+    | K_CAST '(' simpleTerm K_AS native_type ')'
+    ;
+
+value
+    : constant
+    | collectionLiteral
+    | usertypeLiteral
+    | tupleLiteral
+    | K_NULL
+    | ':' ident
+    | QMARK
+    ;
+
+collectionLiteral
+    : listLiteral
+    | '{' term setOrMapLiteral '}'
+    | '{' '}'
+    ;
+
+listLiteral
+    : '[' (term (',' term)*)? ']'
+    ;
+
+setOrMapLiteral
+    : mapLiteral
+    | setLiteral
+    ;
+
+mapLiteral
+    : ':' term (',' term ':' term)*
+    ;
+
+setLiteral
+    : (',' term)*
+    ;
+
+usertypeLiteral
+    : '{' ident ':' term (',' ident ':' term)* '}'
+    ;
+
+tupleLiteral
+    : '(' term (',' term)* ')'
+    ;
+
+function
+    : functionName '(' ')'
+    | functionName '(' args ')'
+    ;
+
+functionName
+    : (keyspaceName '.')? allowedFunctionName
+    ;
+
+keyspaceName
+    : ident
+    ;
+
+allowedFunctionName
+    : IDENT
+    | QUOTED_IDENT
+    | unreserved_function_keyword
+    | K_TOKEN
+    | K_COUNT
+    ;
+
+unreserved_function_keyword
+    : basic_unreserved_keyword
+    | native_type
+    ;
+
+basic_unreserved_keyword
+    : (K_KEYS | K_AS)
+    ;
+
+native_type
+    : K_ASCII
+    | K_BIGINT
+    ;
+
+args
+    : term (',' term)*
+    ;
+
+comparatorType
+    : native_type
+    | collection_type
+    | tuple_type
+    | userTypeName
+    | K_FROZEN OPERATOR_LT comparatorType OPERATOR_GT
+    | STRING_LITERAL
+    ;
+
+collection_type
+    : K_MAP OPERATOR_LT comparatorType ',' comparatorType OPERATOR_GT
+    | K_LIST OPERATOR_LT comparatorType OPERATOR_GT
+    | K_SET OPERATOR_LT comparatorType OPERATOR_GT
+    ;
+
+tuple_type
+    : K_TUPLE OPERATOR_LT comparatorType (',' comparatorType)* OPERATOR_GT
+    ;
+
+userTypeName
+    : (ident '.')? non_type_ident
+    ;
+
+non_type_ident
+    : IDENT
+    | QUOTED_IDENT
+    | basic_unreserved_keyword
+    | K_KEY
+    ;
 
 // SELECT
 

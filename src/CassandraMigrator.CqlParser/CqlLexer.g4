@@ -132,6 +132,10 @@ SQUOTE
    : '\''
    ;
 
+QMARK
+    : '?'
+    ;
+
 // Keywords
 
 K_ADD
@@ -208,6 +212,7 @@ K_CALLED
    : C A L L E D | 'CALLED'
    ;
 
+K_CAST:        C A S T;
 
 K_CLUSTERING
    : C L U S T E R I N G | 'CLUSTERING'
@@ -233,6 +238,7 @@ K_CONTAINS
    : C O N T A I N S | 'CONTAINS'
    ;
 
+K_COUNT:       C O U N T;
 
 K_CREATE
    : C R E A T E | 'CREATE'
