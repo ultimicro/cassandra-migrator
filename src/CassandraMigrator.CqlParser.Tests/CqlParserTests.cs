@@ -22,6 +22,7 @@
 ) WITH CLUSTERING ORDER BY (ck DESC) AND compaction = {'class': 'LeveledCompactionStrategy'}";
             var insert1 = "INSERT INTO foo (pk, ck, val) VALUES (fd1d5bea-ac6b-4af0-a475-c310afc491df, 0X00000000, 'ABC')";
             var insert2 = "INSERT INTO bar (pk, ck, val) VALUES (00000000-0000-0000-0000-000000000000, 0x00000001, { field1: { inner: 0 }, field2: func1() })";
+            var alterTable1 = "ALTER TABLE baz DROP (baz1, baz2)";
             var cql = @$"
 -- comment 1
 {table1};
@@ -31,14 +32,16 @@
 comment 3
 */
 {insert1};
-{insert2};";
+{insert2};
+{alterTable1}";
             var result = CqlParser.ParseStatements(cql).ToList();
 
-            Assert.Equal(4, result.Count);
+            Assert.Equal(5, result.Count);
             Assert.Equal(table1, result[0]);
             Assert.Equal(table2, result[1]);
             Assert.Equal(insert1, result[2]);
             Assert.Equal(insert2, result[3]);
+            Assert.Equal(alterTable1, result[4]);
         }
 
         [Fact]

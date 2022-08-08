@@ -246,41 +246,49 @@ alterTypeAlterType
    ;
 
 alterTable
-   : kwAlter K_TABLE table alterTableOperation
-   ;
+    : K_ALTER K_TABLE (K_IF K_EXISTS)? table alterTableOperation
+    ;
 
 alterTableOperation
-   : alterTableAdd
-   | alterTableDropColumns
-   | alterTableDropColumns
-   | alterTableDropCompactStorage
-   | alterTableRename
-   | tableOptions
-   ;
+    : alterTableAdd
+    | alterTableDropColumns
+    | alterTableRename
+    | K_WITH properties
+    ;
+
+properties
+    : property (K_AND property)*
+    ;
+
+property
+    : ident OPERATOR_EQ propertyValue
+    | ident OPERATOR_EQ fullMapLiteral
+    ;
+
+propertyValue
+    : constant
+    | keyword
+    ;
+
+fullMapLiteral
+    : '{' (term ':' term (',' term ':' term)*)? '}'
+    ;
 
 alterTableRename
-   : kwRename column kwTo column
-   ;
-
-alterTableDropCompactStorage
-   : kwDrop kwCompact kwStorage
-   ;
+    : K_RENAME (K_IF K_EXISTS)? (ident K_TO ident (K_AND ident K_TO ident)*)
+    ;
 
 alterTableDropColumns
-   : kwDrop alterTableDropColumnList
-   ;
-
-alterTableDropColumnList
-   : column (syntaxComma column)*
-   ;
+    : K_DROP (K_IF K_EXISTS)? (ident | ('(' ident (',' ident)* ')'))
+    ;
 
 alterTableAdd
-   : kwAdd alterTableColumnDefinition
-   ;
+    : K_ADD (K_IF K_NOT K_EXISTS)? (alterTableAddCol | ('(' alterTableAddCol (',' alterTableAddCol)* ')'))
+    ;
 
-alterTableColumnDefinition
-   : column dataType (syntaxComma column dataType)*
-   ;
+alterTableAddCol
+    : ident comparatorType (K_STATIC)?
+    ;
 
 alterRole
    : kwAlter kwRole role roleWith?
