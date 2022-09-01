@@ -20,28 +20,38 @@
     val FROZEN<udt1>,
     PRIMARY KEY (pk, ck)
 ) WITH CLUSTERING ORDER BY (ck DESC) AND compaction = {'class': 'LeveledCompactionStrategy'}";
+            var table3 = @"CREATE TABLE baz (
+    pk UUID,
+    val COUNTER,
+    PRIMARY KEY (pk)
+)";
             var insert1 = "INSERT INTO foo (pk, ck, val) VALUES (fd1d5bea-ac6b-4af0-a475-c310afc491df, 0X00000000, 'ABC')";
             var insert2 = "INSERT INTO bar (pk, ck, val) VALUES (00000000-0000-0000-0000-000000000000, 0x00000001, { field1: { inner: 0 }, field2: func1() })";
             var alterTable1 = "ALTER TABLE baz DROP (baz1, baz2)";
+            var alterTable2 = "ALTER TABLE baz ADD baz3 BOOLEAN";
             var cql = @$"
 -- comment 1
 {table1};
 // comment 2
 {table2};
+{table3};
 /*
 comment 3
 */
 {insert1};
 {insert2};
-{alterTable1}";
+{alterTable1};
+{alterTable2}";
             var result = CqlParser.ParseStatements(cql).ToList();
 
-            Assert.Equal(5, result.Count);
+            Assert.Equal(7, result.Count);
             Assert.Equal(table1, result[0]);
             Assert.Equal(table2, result[1]);
-            Assert.Equal(insert1, result[2]);
-            Assert.Equal(insert2, result[3]);
-            Assert.Equal(alterTable1, result[4]);
+            Assert.Equal(table3, result[2]);
+            Assert.Equal(insert1, result[3]);
+            Assert.Equal(insert2, result[4]);
+            Assert.Equal(alterTable1, result[5]);
+            Assert.Equal(alterTable2, result[6]);
         }
 
         [Fact]
