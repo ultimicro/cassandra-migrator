@@ -718,8 +718,9 @@ basic_unreserved_keyword
 
 native_type
     : K_ASCII
-    | K_BOOLEAN
     | K_BIGINT
+    | K_BOOLEAN
+    | K_UUID
     ;
 
 args

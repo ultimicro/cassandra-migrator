@@ -28,7 +28,7 @@
             var insert1 = "INSERT INTO foo (pk, ck, val) VALUES (fd1d5bea-ac6b-4af0-a475-c310afc491df, 0X00000000, 'ABC')";
             var insert2 = "INSERT INTO bar (pk, ck, val) VALUES (00000000-0000-0000-0000-000000000000, 0x00000001, { field1: { inner: 0 }, field2: func1() })";
             var alterTable1 = "ALTER TABLE baz DROP (baz1, baz2)";
-            var alterTable2 = "ALTER TABLE baz ADD baz3 BOOLEAN";
+            var alterTable2 = "ALTER TABLE baz ADD baz3 UUID";
             var cql = @$"
 -- comment 1
 {table1};

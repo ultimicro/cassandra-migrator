@@ -6,7 +6,7 @@
     <AssemblyName>cassandra-migrator</AssemblyName>
     <PackAsTool>true</PackAsTool>
     <ToolCommandName>cassandra</ToolCommandName>
-    <Version>2.2.0</Version>
+    <Version>2.3.0</Version>
     <Description>A .NET tool for manage Apache Cassandra schema.</Description>
   </PropertyGroup>
 
