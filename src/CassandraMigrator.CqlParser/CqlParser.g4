@@ -720,6 +720,7 @@ native_type
     : K_ASCII
     | K_BIGINT
     | K_BOOLEAN
+    | K_TIMESTAMP
     | K_UUID
     ;
 
