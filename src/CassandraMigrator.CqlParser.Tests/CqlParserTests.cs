@@ -29,6 +29,7 @@
             var insert2 = "INSERT INTO bar (pk, ck, val) VALUES (00000000-0000-0000-0000-000000000000, 0x00000001, { field1: { inner: 0 }, field2: func1() })";
             var alterTable1 = "ALTER TABLE baz DROP (baz1, baz2)";
             var alterTable2 = "ALTER TABLE baz ADD baz3 UUID";
+            var alterTable3 = "ALTER TABLE foo ADD foo TEXT";
             var cql = @$"
 -- comment 1
 {table1};
@@ -41,10 +42,11 @@ comment 3
 {insert1};
 {insert2};
 {alterTable1};
-{alterTable2}";
+{alterTable2};
+{alterTable3};";
             var result = CqlParser.ParseStatements(cql).ToList();
 
-            Assert.Equal(7, result.Count);
+            Assert.Equal(8, result.Count);
             Assert.Equal(table1, result[0]);
             Assert.Equal(table2, result[1]);
             Assert.Equal(table3, result[2]);
@@ -52,6 +54,7 @@ comment 3
             Assert.Equal(insert2, result[4]);
             Assert.Equal(alterTable1, result[5]);
             Assert.Equal(alterTable2, result[6]);
+            Assert.Equal(alterTable3, result[7]);
         }
 
         [Fact]

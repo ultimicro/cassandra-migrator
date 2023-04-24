@@ -2,7 +2,7 @@
  * The MIT License (MIT)
  *
  * Copyright (c) 2014 by Domagoj Kovačević
- * Copyright (c) 2021 by Ultima Microsystems
+ * Copyright (c) 2023 by Ultima Microsystems
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
  * associated documentation files (the "Software"), to deal in the Software without restriction,
@@ -720,6 +720,7 @@ native_type
     : K_ASCII
     | K_BIGINT
     | K_BOOLEAN
+    | K_TEXT
     | K_TIMESTAMP
     | K_UUID
     ;
