@@ -30,6 +30,7 @@
             var alterTable1 = "ALTER TABLE baz DROP (baz1, baz2)";
             var alterTable2 = "ALTER TABLE baz ADD baz3 UUID";
             var alterTable3 = "ALTER TABLE foo ADD foo TEXT";
+            var alterTable4 = "ALTER TABLE foo ADD bar TINYINT";
             var cql = @$"
 -- comment 1
 {table1};
@@ -43,10 +44,11 @@ comment 3
 {insert2};
 {alterTable1};
 {alterTable2};
-{alterTable3};";
+{alterTable3};
+{alterTable4};";
             var result = CqlParser.ParseStatements(cql).ToList();
 
-            Assert.Equal(8, result.Count);
+            Assert.Equal(9, result.Count);
             Assert.Equal(table1, result[0]);
             Assert.Equal(table2, result[1]);
             Assert.Equal(table3, result[2]);
@@ -55,6 +57,7 @@ comment 3
             Assert.Equal(alterTable1, result[5]);
             Assert.Equal(alterTable2, result[6]);
             Assert.Equal(alterTable3, result[7]);
+            Assert.Equal(alterTable4, result[8]);
         }
 
         [Fact]

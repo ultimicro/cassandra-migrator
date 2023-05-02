@@ -722,6 +722,7 @@ native_type
     | K_BOOLEAN
     | K_TEXT
     | K_TIMESTAMP
+    | K_TINYINT
     | K_UUID
     ;
 
