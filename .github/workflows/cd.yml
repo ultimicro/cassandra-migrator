@@ -41,17 +41,17 @@ jobs:
     needs: build
     steps:
     - name: Download NuGet packages
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
       with:
         name: packages
         path: packages
     - name: Download CLI
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
       with:
         name: cli
         path: cli
     - name: Download Docker assets
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
       with:
         name: docker
         path: docker
