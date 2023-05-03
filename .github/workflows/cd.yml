@@ -21,17 +21,17 @@ jobs:
         mkdir -pv dist/docker/cli
         cp -v src/CassandraMigrator.Console/Dockerfile dist/docker/cli
     - name: Upload NuGet packages
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: packages
         path: dist/pkg
     - name: Upload CLI
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: cli
         path: dist/cli
     - name: Upload Docker assets
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: docker
         path: dist/docker
