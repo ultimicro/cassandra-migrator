@@ -32,6 +32,7 @@
             var alterTable3 = "ALTER TABLE foo ADD foo TEXT";
             var alterTable4 = "ALTER TABLE foo ADD bar TINYINT";
             var alterTable5 = "ALTER TABLE baz ADD foo MAP<ASCII, DECIMAL>";
+            var alterTable6 = "ALTER TABLE foo ADD baz DATE";
             var cql = @$"
 -- comment 1
 {table1};
@@ -47,10 +48,11 @@ comment 3
 {alterTable2};
 {alterTable3};
 {alterTable4};
-{alterTable5};";
+{alterTable5};
+{alterTable6};";
             var result = CqlParser.ParseStatements(cql).ToList();
 
-            Assert.Equal(10, result.Count);
+            Assert.Equal(11, result.Count);
             Assert.Equal(table1, result[0]);
             Assert.Equal(table2, result[1]);
             Assert.Equal(table3, result[2]);
@@ -61,6 +63,7 @@ comment 3
             Assert.Equal(alterTable3, result[7]);
             Assert.Equal(alterTable4, result[8]);
             Assert.Equal(alterTable5, result[9]);
+            Assert.Equal(alterTable6, result[10]);
         }
 
         [Fact]
