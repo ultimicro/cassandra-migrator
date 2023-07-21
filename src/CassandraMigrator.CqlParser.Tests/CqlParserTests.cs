@@ -12,6 +12,7 @@
     pk uuid,
     ck blob,
     val text,
+    date date,
     PRIMARY KEY (pk, ck)
 )";
             var table2 = @"CREATE TABLE bar (

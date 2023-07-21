@@ -54,9 +54,9 @@ cql
    | createKeyspace
    | createMaterializedView
    | createRole
-   | createTable
+    | createTable
    | createTrigger
-   | createType
+    | createType
    | createUser
    | delete_
    | dropAggregate
@@ -132,12 +132,18 @@ createRole
    ;
 
 createType
-   : K_CREATE K_TYPE ifNotExist? udt syntaxBracketLr typeMemberColumnList syntaxBracketRr
-   ;
+    : K_CREATE K_TYPE (K_IF K_NOT K_EXISTS)? userTypeName '(' typeColumns ( ',' typeColumns?)* ')'
+    ;
 
-typeMemberColumnList
-   : column dataType (syntaxComma column dataType)*
-   ;
+typeColumns
+    : fident comparatorType
+    ;
+
+fident
+    : IDENT
+    | QUOTED_NAME
+    | unreserved_keyword
+    ;
 
 createTrigger
    : K_CREATE kwTrigger ifNotExist? (keyspace DOT)? trigger kwUsing triggerClass
@@ -352,7 +358,61 @@ dropIndex
 // CREATE TABLE
 
 createTable
-    : K_CREATE K_TABLE ifNotExist? table syntaxBracketLr columnDefinitionList syntaxBracketRr tableOptions?
+    : K_CREATE K_TABLE (K_IF K_NOT K_EXISTS)? columnFamilyName tableDefinition
+    ;
+
+columnFamilyName
+    : (ksName '.')? cfName
+    ;
+
+tableDefinition
+    : '(' tableColumns (',' tableColumns?)* ')' (K_WITH tableProperty (K_AND tableProperty)*)?
+    ;
+
+tableColumns
+    : ident comparatorType K_STATIC? (columnMask)? (K_PRIMARY K_KEY)?
+    | K_PRIMARY K_KEY '(' tablePartitionKey (',' ident)* ')'
+    ;
+
+columnMask
+    : K_MASKED K_WITH functionName columnMaskArguments
+    | K_MASKED K_WITH K_DEFAULT
+    ;
+
+columnMaskArguments
+    : '('  ')' | '(' term (',' term)* ')'
+    ;
+
+tablePartitionKey
+    : ident
+    | '(' ident (',' ident)* ')'
+    ;
+
+tableProperty
+    : property
+    | K_COMPACT K_STORAGE
+    | K_CLUSTERING K_ORDER K_BY '(' tableClusteringOrder (',' tableClusteringOrder)* ')'
+    ;
+
+tableClusteringOrder
+    : ident (K_ASC | K_DESC)
+    ;
+
+ksName
+    : IDENT
+    | QUOTED_NAME
+    | unreserved_keyword
+    ;
+
+cfName
+    : IDENT
+    | QUOTED_NAME
+    | unreserved_keyword
+    ;
+
+unreserved_keyword
+    : unreserved_function_keyword
+    | (K_TTL | K_COUNT | K_WRITETIME | K_MAXWRITETIME | K_KEY | K_CAST | K_JSON | K_DISTINCT)
     ;
 
 tableOptions
@@ -713,13 +773,19 @@ unreserved_function_keyword
     ;
 
 basic_unreserved_keyword
-    : (K_KEYS | K_AS)
+    : K_AS
+    | K_KEYS
+    | K_LANGUAGE
+    | K_TYPE
+    | K_USER
     ;
 
 native_type
     : K_ASCII
     | K_BIGINT
+    | K_BLOB
     | K_BOOLEAN
+    | K_COUNTER
     | K_DATE
     | K_DECIMAL
     | K_TEXT
@@ -923,15 +989,14 @@ column
 
 ident
     : IDENT
-    | QUOTED_IDENT
-    | keyword
+    | QUOTED_NAME
+    | unreserved_keyword
     ;
 
 // Keyword groups
 
 keyword
     : K_LANGUAGE
-    | K_LEVEL
     | K_TYPE
     | K_USER
     ;

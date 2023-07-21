@@ -249,6 +249,7 @@ K_CUSTOM
    : C U S T O M | 'CUSTOM'
    ;
 
+K_DEFAULT: D E F A U L T;
 
 K_DELETE
    : D E L E T E | 'DELETE'
@@ -409,14 +410,7 @@ K_KEYSPACES
    ;
 
 
-K_LANGUAGE
-   : L A N G U A G E | 'LANGUAGE'
-   ;
-
-
-K_LEVEL
-   : L E V E L | 'LEVEL'
-   ;
+K_LANGUAGE: L A N G U A G E;
 
 
 K_LIMIT
@@ -443,11 +437,13 @@ K_LOGIN
    : L O G I N | 'LOGIN'
    ;
 
+K_MASKED: M A S K E D;
 
 K_MATERIALIZED
    : M A T E R I A L I Z E D | 'MATERIALIZED'
    ;
 
+K_MAXWRITETIME: M A X W R I T E T I M E;
 
 K_MODIFY
    : M O D I F Y | 'MODIFY'
@@ -669,9 +665,7 @@ K_TWO
    ;
 
 
-K_TYPE
-   : T Y P E | 'TYPE'
-   ;
+K_TYPE: T Y P E;
 
 
 K_UNLOGGED
@@ -689,9 +683,7 @@ K_USE
    ;
 
 
-K_USER
-   : U S E R | 'USER'
-   ;
+K_USER: U S E R;
 
 
 K_USING
@@ -738,25 +730,17 @@ K_BIGINT
    : B I G I N T
    ;
 
-
-K_BLOB
-   : B L O B
-   ;
-
+K_BLOB: B L O B;
 
 K_BOOLEAN
    : B O O L E A N
    ;
 
 
-K_COUNTER
-   : C O U N T E R
-   ;
+K_COUNTER: C O U N T E R;
 
 
-K_DATE
-   : D A T E
-   ;
+K_DATE: D A T E;
 
 
 K_DECIMAL
@@ -996,6 +980,9 @@ STRING_LITERAL
    : SQUOTA_STRING
    ;
 
+QUOTED_NAME
+    : '"' (~'"' | '"' '"')+ '"'
+    ;
 
 DECIMAL_LITERAL
    : DIGIT +
